@@ -5,12 +5,15 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 //GET all products and include the Category model as well as the Tag model
 router.get('/', async (req, res) => {
-  try{ const productData = await Product.findall({
-    include:[{ model: Category} ,{ model: Tag}],
-  });
-  res.status(200).json(productData);
-  } catch(err){
-    res.status(500).json(err);
+  console.log('hello');
+  try {
+    const productData = await Product.findAll({
+      include: [{ model: Category }, { model: Tag }],
+    });
+    res.status(200).json(productData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
   }
 });
 
@@ -18,32 +21,21 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [{model: Category}, {model: Tag}]
+      include: [{ model: Category }, { model: Tag }]
     });
-    if (!productData){
-      res.status(404).json({message: 'No product found with that id!'});
+    if (!productData) {
+      res.status(404).json({ message: 'No product found with that id!' });
       return;
     }
     res.status(200).json(productData);
-  } catch(err){
+  } catch (err) {
     res.status(500).json(err);
   }
 });
 
 //CREATE a new product with proper parameters
-router.post('/', async (req, res) => {
-  try{ const productData= await Product.create({
-    product_name: req.body.product_name,
-    price: req.params.price, 
-    stock: req.params.stock, 
-    tag_id: req.params.tag_id,
-  });
-  res.status(200).json(productData);
-  } catch (err){
-    res.status(400).json(err);
-  }
-});
-  /* req.body should look like this...
+router.post('/', (req, res) => {
+  	/* req.body should look like this...
     {
       product_name: "Basketball",
       price: 200.00,
@@ -71,7 +63,8 @@ router.post('/', async (req, res) => {
       console.log(err);
       res.status(400).json(err);
     });
-    
+});
+
 // update product
 router.put('/:id', (req, res) => {
   // update product data
