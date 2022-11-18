@@ -11,4 +11,5 @@ This is an e-commerce application that allows the user to connect to a database 
 ![POST-route](assets/POST-route.gif)
 ![PUT-route](assets/PUT-route.gif)
 ![DELETE-route](assets/DELETE-route.gif)
+![Schema-Seed-Server](assets\schema-seed-server.gif)
 
